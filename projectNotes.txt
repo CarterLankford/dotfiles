@@ -1,0 +1,113 @@
+Project planning notes
+
+I normally only run a command one way or another so i'll test until I find a way that works for me and functionalize it so that I don't have to remember later
+
+Needs:
+function to find current path
+function to check if dir exisit
+function to copy copy file from one location to another
+check if file made it
+create sym links
+check the ai suggestions (os symlink)
+make supporting bash files to be run to create and clean env?
+
+Wants:
+
+Dependencies:
+
+
+
+
+
+
+///////////////
+AI suggestion
+\\\\\\\\\\\\\\\
+>>> I want to make a script that when used will configure my current linux experience to how I want it. I want this script to copy files, create symbolic links and perform other system tasks. What systm 
+...  would you suggest? 
+Based on your requirements, I'd suggest using a Linux system scripting language such as Bash or Python.
+
+**Option 1: Bash**
+
+Bash is the default shell for most Linux distributions and has built-in support for scripting. You can use Bash's built-in `cp`, `ln`, and other commands to copy files, create symbolic links, and 
+perform other tasks.
+
+Here's a simple example of how you could write a script in Bash:
+```bash
+#!/bin/bash
+
+# Copy file from source to destination
+copy_file() {
+  cp "$1" "$2"
+}
+
+# Create symbolic link
+create_link() {
+  ln -s "$1" "$2"
+}
+
+# Perform other system tasks (e.g., create directory, remove file)
+create_dir() {
+  mkdir "$1"
+}
+
+remove_file() {
+  rm "$1"
+}
+```
+You can then source this script in your terminal by running `source config.sh` and use the functions defined above to perform various system tasks.
+
+**Option 2: Python**
+
+Python is a powerful scripting language that's well-suited for system administration tasks. You can use Python's `subprocess` module to run Bash commands or write your own implementation of system 
+tasks using Python libraries like `shutil` and `os`.
+
+Here's an example of how you could write a script in Python:
+```python
+import shutil
+import os
+
+def copy_file(src, dst):
+  shutil.copy(src, dst)
+
+def create_link(src, link):
+  os.symlink(src, link)
+
+def create_dir(name):
+  os.mkdir(name)
+
+def remove_file(path):
+  os.remove(path)
+```
+You can then use this script as a library in your Python code to perform system tasks.
+
+**Which one?**
+
+If you're already familiar with Bash, it might be easier to stick with that. However, if you prefer Python or want to write more complex logic, go with Python!
+
+What do you think? Do either of these options sound appealing to you?
+
+>>> in the bash suggestion what does sourcing the script do?
+In Bash, when I mentioned `source config.sh`, I'm referring to a special way to run a script. The `source` command (also known as `. config.sh`) is used to execute the commands in the specified 
+script file (`config.sh`) in the current shell session.
+
+By sourcing the script, you're not creating a new instance of Bash, but rather executing the script's contents within your existing shell session. This means that:
+
+1. **Variables and functions are available**: Any variables or functions defined in the script will be available for use in your current shell session.
+2. **No new process is created**: Sourcing a script doesn't create a new Bash process, so you won't see a new prompt or have to switch between processes.
+
+To illustrate this, let's consider an example:
+
+Suppose `config.sh` contains the following:
+```bash
+#!/bin/bash
+
+MY_VAR="Hello from sourced script!"
+```
+If you run `source config.sh`, then in your current shell session, you can access `MY_VAR` like so: `$ echo $MY_VAR`
+
+However, if you ran `config.sh` as a regular script (using `./config.sh`), it would execute independently and create its own process. You wouldn't be able to access the variables or functions 
+defined in that script from your current shell session.
+
+Does this help clarify what sourcing a script does?
+

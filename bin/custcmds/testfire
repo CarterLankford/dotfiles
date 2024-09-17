@@ -1,0 +1,5 @@
+#!/bin/bash
+
+curl wttr.in/~xna?u
+
+#Don't forget to chmod -x /usr/bin/weather when deployed

@@ -22,6 +22,20 @@ import subprocess
 ## python3 script.py <test/run> <secondary arg> <third>
 ## python3 script.py <type> <additiional args>
 
+## I think i'm just going to start making stuff work then go back and start to figure out how to efficently create a system for my flow. like is the todo thing even a good idea
+##idea being: i'd rather half ass something then get lost in trying to structure it and then give up because I burried myself in ideas. 
+
+def send_CMD_Mkdir(dirName):
+    #from https://stackoverflow.com/questions/793858/how-to-mkdir-only-if-a-directory-does-not-already-exist
+    #mkdir -p test/omg/yeah
+    #input can match <send_CMD_Mkdir("test/ohyeah")>
+    proc = subprocess.Popen(['mkdir', '-p', dirName], stdout=subprocess.PIPE)
+
+def send_CMD():
+    print("merp")
+
+def clean_Test_Env():
+    proc1 = subprocess.Popen(['rm', '-rf', 'downRange/'], stdout=subprocess.PIPE)
 
 def printError(errorLocation):
 	print("error at marker[" + errorLocation + "]")
@@ -29,13 +43,39 @@ def printError(errorLocation):
 	##Note:TODO:add log function
 
 def buildTestEnv(type):
-	#python3 test env build
-	#python3 test env sanatize
-	print(type)
+    if type == "test":
+        send_CMD_Mkdir("downRange/payload/log/")
+        send_CMD_Mkdir("downRange/payload/output")
 
-def test():
-    if sys.argv[1] == "test":
-        buildTestEnv(sys.argv[1])
+def copy_File_To(fullFileName, payloadDir):
+    if os.path.isfile(fullFileName):
+        try:
+            shutil.copy2(fullFileName, payloadDir)
+            print(f"File {fullFileName} copied successfully.")
+        except Exception as e:
+            print(f"Error copying file {fullFileName}: {str(e)}")
+    else:
+        print(f"File {fullFileName} does not exist.")
+
+def proto():
+    try:
+        #this is what the process will look like in prime time/main and do a full copy/sort ////another version will be needed for targeted file types
+        ##send_CMD_Get_All_File_Types()
+        ##fileExtensionList = generate_File_Type_List("payload/log/", "fileExtensionList.txt")
+        ##fullFileList = generate_Target_File_List("payload/log/", "completeTargetList.txt")
+        payloadDir = "/usr/bin/testfire"
+        targetfile = "bin/custcmds/testfire"
+        #chmod -x /usr/bin/weather
+        ##copy_File_To(targetfile, payloadDir)
+        #proc = subprocess.Popen(['cp', 'bin/custcmds/testfire', '/usr/bin/testfire'], stdout=subprocess.PIPE)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+    
+
+def copy_Custom_Commands():
+    print("")
+    ##Note:TODO:this lives in the auxCmds.sh because Python won't copy due to permissions. Need to see if I can make work later
+
 
 
 
@@ -47,8 +87,12 @@ def main():
     elif argCount < 5:
     	#I don't expect anything over 5 input var. Setting this if to block any runaways
     	#pass arguments to their each own def for easy code reading, if possible
-        if sys.argv[1] == "test":
-        	test()
+        if sys.argv[1] == "proto":
+        	proto()
+        if sys.argv[1] == "exampleCode":
+            print("example code in code silly")
+            #copy_File_To(targetfile, payloadDir)
+            #proc = subprocess.Popen(['cp', 'bin/custcmds/testfire', '/usr/bin/testfire'], stdout=subprocess.PIPE)
         else:
         	#didn't match or is not valid option
         	printError("M1-1") #M1-1
@@ -62,6 +106,12 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+
+"""
+    if sys.argv[1] == "test":
+        buildTestEnv(sys.argv[1])
+"""
 
 
 """
@@ -114,7 +164,7 @@ def copy_File_To(fullFileName, payloadDir):
 
 def send_CMD_Mkdir(dirName):
     #from https://stackoverflow.com/questions/793858/how-to-mkdir-only-if-a-directory-does-not-already-exist
-    #mkdir -p test/omg/fuckyeah
+    #mkdir -p test/omg/yeah
     #input can match <send_CMD_Mkdir("test/ohyeah")>
     proc = subprocess.Popen(['mkdir', '-p', dirName], stdout=subprocess.PIPE)
 

@@ -1,2 +1,30 @@
 ##Get battery Percent
 upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state|to\ full|percentage"
+
+
+
+##list all apps
+dpkg --list
+
+##Package removal
+sudo apt-get purge <package_name>
+
+##install kvm
+https://ubuntu.com/blog/kvm-hyphervisor
+
+use virt machine for gui for kvm
+
+idea for a living system
+if an idea is posted it can be challenged and voted yay or nay
+if local people had to meet someone in person it would help against fake accounts. 
+how to adult
+
+
+dependencies for env script:
+vim
+curl
+git
+
+sudo chmod +x /usr/bin/weather 
+sudo apt install python3-pip
+pip3 install prompt_toolkit

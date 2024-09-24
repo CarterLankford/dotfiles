@@ -4,5 +4,10 @@
 ##sudo chmod +x /usr/bin/testfire
 #sudo bash auxCmds.sh
 
-cp bin/custcmds/testfire /usr/bin/testfire
-chmod +x /usr/bin/testfire
+
+##Copy cmd files to /usr/bin
+cp bin/custcmds/weather /usr/bin/weather
+
+
+##Make them executable
+chmod +x /usr/bin/weather

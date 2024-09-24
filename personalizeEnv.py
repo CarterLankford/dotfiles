@@ -57,17 +57,36 @@ def copy_File_To(fullFileName, payloadDir):
     else:
         print(f"File {fullFileName} does not exist.")
 
+def create_SymLink(sourceDir, targetDir):
+    print("merp")
+    #os.symlink('/home/gretiem/tmp/.', '/home/gretiem/tmp/home/gretiem/tmp/payload/merp.txt')
+    #V1#proc = subprocess.Popen(['ln', '-s', '/home/gretiem/home/gretiem/tmp/payload/merp.txt', '/home/gretiem/tmp/'], stdout=subprocess.PIPE)
+    #V2#proc = subprocess.Popen(['ln', '-s', '~/tmp/home/gretiem/tmp/payload/merp.txt', '/home/gretiem/tmp/.'], stdout=subprocess.PIPE) #doesn't like ~/ for the second link
+    proc = subprocess.Popen(['ln', '-s', sourceDir, targetDir], stdout=subprocess.PIPE)
+    #ln -s ~/tmp/home/gretiem/tmp/payload/merp.txt ~/tmp/
+    #ln -s tmp/home/gretiem/tmp/payload/merp.txt tmp/
+    #ln -s dotfiles/bin/.vimrc ~/
+
+def get_UserHomeDir():
+    curDir = os.getcwd()
+    x = curDir.split("/")
+    y = "/" + x[1] + "/" + x[2] + "/"
+    return y
+
+def get_RunningDir():
+    return os.getcwd()
+
 def proto():
     try:
-        #this is what the process will look like in prime time/main and do a full copy/sort ////another version will be needed for targeted file types
-        ##send_CMD_Get_All_File_Types()
-        ##fileExtensionList = generate_File_Type_List("payload/log/", "fileExtensionList.txt")
-        ##fullFileList = generate_Target_File_List("payload/log/", "completeTargetList.txt")
-        payloadDir = "/usr/bin/testfire"
-        targetfile = "bin/custcmds/testfire"
-        #chmod -x /usr/bin/weather
-        ##copy_File_To(targetfile, payloadDir)
-        #proc = subprocess.Popen(['cp', 'bin/custcmds/testfire', '/usr/bin/testfire'], stdout=subprocess.PIPE)
+        y = get_UserHomeDir()
+        #current_dir = os.getcwd()
+        #print(current_dir)
+        #x = current_dir.split("/")
+        #for i in x:
+        #    print(x)
+        #y = "/" + x[1] + "/" + x[2] + "/"
+        print(y)
+        print(get_RunningDir())
     except Exception as e:
         print(f"An error occurred: {str(e)}")
     
@@ -89,10 +108,13 @@ def main():
     	#pass arguments to their each own def for easy code reading, if possible
         if sys.argv[1] == "proto":
         	proto()
-        if sys.argv[1] == "exampleCode":
+        elif sys.argv[1] == "exampleCode":
             print("example code in code silly")
             #copy_File_To(targetfile, payloadDir)
             #proc = subprocess.Popen(['cp', 'bin/custcmds/testfire', '/usr/bin/testfire'], stdout=subprocess.PIPE)
+            #create_SymLink("~/tmp/home/gretiem/tmp/payload/merp.txt", "/home/gretiem/tmp/")
+        elif sys.argv[1] == "prod":
+            create_SymLink("/home/gretiem/dotfiles/bin/.vimrc", "/home/gretiem/")
         else:
         	#didn't match or is not valid option
         	printError("M1-1") #M1-1

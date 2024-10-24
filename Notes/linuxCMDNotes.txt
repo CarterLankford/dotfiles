@@ -1,7 +1,8 @@
 ##Get battery Percent
 upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "state|to\ full|percentage"
 
-
+##Get Nvidia gpu usage
+watch -n 0.5 nvidia-smi
 
 ##list all apps
 dpkg --list
@@ -12,7 +13,57 @@ sudo apt-get purge <package_name>
 ##install kvm
 https://ubuntu.com/blog/kvm-hyphervisor
 
+sudo apt -y install bridge-utils cpu-checker libvirt-clients libvirt-daemon qemu qemu-kvm
+
 use virt machine for gui for kvm
+
+
+##docker install (install kvm and gnome-terminal)
+##https://docs.docker.com/desktop/install/linux/ubuntu/
+##docker desktop for linux https://docs.docker.com/desktop/install/linux/ubuntu/
+
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+##add ollama
+sudo curl -fsSL https://ollama.com/install.sh | sh
+
+##This workes for openAi and is provided by open webui directly
+#CPU only
+docker run -d -p 3000:8080 -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+
+#GPU
+docker run -d -p 3000:8080 --gpus=all -v ollama:/root/.ollama -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:ollama
+
+#website used
+https://docs.openwebui.com/getting-started/
+
+
+##add webui for network AI use
+What I did
+docker run -p 3000:8080 --add-host=host.docker.internal:host-gateway -d -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name try3 --restart always ghcr.io/open-webui/open-webui:main
+
+
+What chuck did
+docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+
+
+https://community.hetzner.com/tutorials/ai-chatbot-with-ollama-and-open-webui
+
+
+
 
 idea for a living system
 if an idea is posted it can be challenged and voted yay or nay
@@ -28,3 +79,5 @@ git
 sudo chmod +x /usr/bin/weather 
 sudo apt install python3-pip
 pip3 install prompt_toolkit
+
+
